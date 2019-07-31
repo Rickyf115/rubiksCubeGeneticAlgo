@@ -53,6 +53,9 @@ class RubixCube():
         self.flag = False
         self.rightRotate(True)
         self.leftRotate(False)
+        self.topRotate(False)
+        self.backRotate(True)
+        self.leftRotate(False)
 
     
     def getScore(self, color):

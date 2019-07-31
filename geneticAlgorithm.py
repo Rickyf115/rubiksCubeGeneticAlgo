@@ -84,11 +84,12 @@ def crossover(chrom1, chrom2):
     return chrom1, chrom2
 
 
-def mutation(chrom):
+def mutation(chrom, mutation_rate):
     possible_moves = ['backco','back', 'forwardco','forward', 'topco','top', 'bottomco','bottom', 'leftco','left', 'rightco','right', 'nomove']
     move_index = random.randint(0, 12)
-    index = random.randint(0,len(chrom)-1)
-    chrom[index] = possible_moves[move_index]
+    for i, move in enumerate(chrom):
+        if random.random() <= mutation_rate:
+            chrom[i] = possible_moves[move_index]
     print('Mutation occured!')
     return chrom
 
@@ -96,13 +97,16 @@ def mutation(chrom):
 def selection(population):
     top_chromosome = population[0]
     second_chromosome = population[1]
-    for chromosome in population:
+    for i, chromosome in enumerate(population):
         if fitness(chromosome) > fitness(top_chromosome):
             top_chromosome = chromosome
+            top_chromosome_loc = i
             second_chromosome = top_chromosome
+            second_chromosome_loc = top_chromosome_loc
         elif fitness(chromosome) > fitness(second_chromosome):
             second_chromosome = chromosome
-    return top_chromosome, second_chromosome
+            second_chromosome_loc = i
+    return top_chromosome, second_chromosome,top_chromosome_loc, second_chromosome_loc
 
 
 def find_lowest(population):
@@ -117,6 +121,7 @@ def find_lowest(population):
 
 def simulation(generation_size, pop_size, chrom_size, mutation_rate, max_pop):
     population = initialize_pop(population_size=pop_size, chromosome_size=chrom_size)
+    count = 0
     while generation_size != 0:
         rand_index = random.randint(0, pop_size - 1)
         top_chromosomes = selection(population)
@@ -130,16 +135,25 @@ def simulation(generation_size, pop_size, chrom_size, mutation_rate, max_pop):
                 del population[find_lowest(population)[1]]
                 print('Removing chromosome:', population[find_lowest(population)[1]])
         if random.random() < mutation_rate:
-            population[rand_index] = mutation(population[rand_index])
+            population[rand_index] = mutation(population[rand_index], mutation_rate)
         top = selection(population)[0]
         print('Top Chromosome: ', top)
         print('fitness Score: ', fitness(top))
+        prev_top = list.copy(top)
+        if prev_top == top:
+            count += 1
+        if count > 15:
+            del population[top_chromosomes[2]]
+            del population[top_chromosomes[3]]
+            count = 0
+        if fitness(top) == 54:
+            generation_size = 1
         generation_size -= 1
 
 
 
 if __name__ == '__main__':
-    simulation(500, 10, 6, 0.5, 50)
+    simulation(1000, 50, 5, 0.5, 100)
 
 
 
