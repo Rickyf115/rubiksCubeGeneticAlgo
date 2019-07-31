@@ -51,45 +51,79 @@ class RubixCube():
             Cube_2(5, 4, 5, 4)
         ]
 
+        self.flag = False
+    
+    def getScore(self, color):
+        totalScore = 1
+        for cornerCube in self.cornerCubes:
+            if cornerCube.face1 == color:
+                if cornerCube.color1 == cornerCube.face1:
+                    totalScore += 1
+            elif cornerCube.face2 == color:
+                if cornerCube.color2 == cornerCube.face2:
+                    totalScore += 1
+            elif cornerCube.face3 == color:
+                if cornerCube.color3 == cornerCube.face3:
+                    totalScore += 1
+
+        for innerCube in self.innerCubes:
+            if innerCube.face1 == color:
+                if innerCube.color1 == innerCube.face1:
+                    totalScore += 1
+            elif innerCube.face2 == color:
+                if innerCube.color2 == innerCube.face2:
+                    totalScore += 1
+        return totalScore
+
     def get3DCubes(self):
         for cube in self.cornerCubes:
-            print "Cube: "
-            print cube.face1, cube.face2, cube.face3
-            print cube.color1, cube.color2, cube.color3
-            print "\n"
+            print("Cube: ")
+            print(cube.face1, cube.face2, cube.face3)
+            print(cube.color1, cube.color2, cube.color3)
+            print("\n")
     
     def get2DCubes(self):
         for cube in self.innerCubes:
-            print "Cube: "
-            print cube.face1, cube.face2
-            print cube.color1, cube.color2
-            print "\n"
+            print("Cube: ")
+            print(cube.face1, cube.face2)
+            print(cube.color1, cube.color2)
+            print("\n")
     
     def do3DRotation(self, cube, color1, color2, newColor1, newColor2):
-        if cube.face1 == color1 and cube.face2 == color2:
-            cube.face1 = newColor1
-            cube.face2 = newColor2
-        elif cube.face1 == color2 and cube.face2 == color1:
-            cube.face1 = newColor2
-            cube.face2 = newColor1
-        elif cube.face2 == color1 and cube.face3 == color2:
-            cube.face2 = newColor1
-            cube.face3 = newColor2
-        elif cube.face2 == color2 and cube.face3 == color1:
-            cube.face2 = newColor2
-            cube.face3 = newColor1
-        elif cube.face1 == color1 and cube.face3 == color2:
-            cube.face1 = newColor1
-            cube.face3 = newColor2
-        elif cube.face1 == color2 and cube.face3 == color1:
-            cube.face1 = newColor2
-            cube.face3 = newColor1
+        if not self.flag:
+            if cube.face1 == color1 and cube.face2 == color2:
+                cube.face1 = newColor1
+                cube.face2 = newColor2
+                self.flag = True
+            elif cube.face1 == color2 and cube.face2 == color1:
+                cube.face1 = newColor2
+                cube.face2 = newColor1
+                self.flag = True
+            elif cube.face2 == color1 and cube.face3 == color2:
+                cube.face2 = newColor1
+                cube.face3 = newColor2
+                self.flag = True
+            elif cube.face2 == color2 and cube.face3 == color1:
+                cube.face2 = newColor2
+                cube.face3 = newColor1
+                self.flag = True
+            elif cube.face1 == color1 and cube.face3 == color2:
+                cube.face1 = newColor1
+                cube.face3 = newColor2
+                self.flag = True
+            elif cube.face1 == color2 and cube.face3 == color1:
+                cube.face1 = newColor2
+                cube.face3 = newColor1
+                self.flag = True
     
     def do2DRotation(self, cube, color, newColor):
-        if cube.face1 == color:
-            cube.face1 = newColor
-        elif cube.face2 == color:
-            cube.face2 = newColor 
+        if not self.flag:
+            if cube.face1 == color:
+                cube.face1 = newColor
+                self.flag = True
+            elif cube.face2 == color:
+                cube.face2 = newColor 
+                self.flag = True
 
     #DONE
     def rightRotate(self, counterClockwise):
@@ -107,6 +141,7 @@ class RubixCube():
                     self.do3DRotation(cornerCube, 1, 5, 0, 1)
                     self.do3DRotation(cornerCube, 5, 3, 1, 5)
                     self.do3DRotation(cornerCube, 3, 0, 5, 3)
+            self.flag = False
 
         for innerCube in self.innerCubes:
             if innerCube.face1 == 2 or innerCube.face2 == 2:
@@ -120,6 +155,7 @@ class RubixCube():
                     self.do2DRotation(innerCube, 1, 0)
                     self.do2DRotation(innerCube, 5, 1)
                     self.do2DRotation(innerCube, 3, 5)
+            self.flag = False
      
     #DONE
     def leftRotate(self, counterClockwise):
@@ -137,6 +173,7 @@ class RubixCube():
                     self.do3DRotation(cornerCube, 3, 5, 0, 3)
                     self.do3DRotation(cornerCube, 5, 1, 3, 5)
                     self.do3DRotation(cornerCube, 1, 0, 5, 1)
+            self.flag = False
 
         for innerCube in self.innerCubes:
             if innerCube.face1 == 4 or innerCube.face2 == 4:
@@ -150,6 +187,7 @@ class RubixCube():
                     self.do2DRotation(innerCube, 1, 5)
                     self.do2DRotation(innerCube, 5, 3)
                     self.do2DRotation(innerCube, 3, 0)
+            self.flag = False
 
     #DONE
     def topRotate(self, counterClockwise):
@@ -167,6 +205,7 @@ class RubixCube():
                     self.do3DRotation(cornerCube, 2, 3, 1, 2)
                     self.do3DRotation(cornerCube, 3, 4, 2, 3)
                     self.do3DRotation(cornerCube, 4, 1, 3, 4)
+            self.flag = False
 
         for innerCube in self.innerCubes:
             if innerCube.face1 == 0 or innerCube.face2 == 0:
@@ -180,6 +219,7 @@ class RubixCube():
                     self.do2DRotation(innerCube, 2, 1)
                     self.do2DRotation(innerCube, 3, 2)
                     self.do2DRotation(innerCube, 4, 3)
+            self.flag = False
 
     #DONE
     def bottomRotate(self, counterClockwise):
@@ -197,6 +237,7 @@ class RubixCube():
                     self.do3DRotation(cornerCube, 4, 3, 1, 4)
                     self.do3DRotation(cornerCube, 3, 2, 4, 3)
                     self.do3DRotation(cornerCube, 2, 1, 3, 2)
+            self.flag = False
 
         for innerCube in self.innerCubes:
             if innerCube.face1 == 5 or innerCube.face2 == 5:
@@ -210,6 +251,7 @@ class RubixCube():
                     self.do2DRotation(innerCube, 4, 1)
                     self.do2DRotation(innerCube, 3, 4)
                     self.do2DRotation(innerCube, 2, 3)
+            self.flag = False
 
     #DONE
     def frontRotate(self, counterClockwise):
@@ -227,6 +269,7 @@ class RubixCube():
                     self.do3DRotation(cornerCube, 4, 5, 0, 4)
                     self.do3DRotation(cornerCube, 5, 2, 4, 5)
                     self.do3DRotation(cornerCube, 2, 0, 5, 2)
+            self.flag = False
 
         for innerCube in self.innerCubes:
             if innerCube.face1 == 1 or innerCube.face2 == 1:
@@ -240,6 +283,7 @@ class RubixCube():
                     self.do2DRotation(innerCube, 4, 0)
                     self.do2DRotation(innerCube, 5, 4)
                     self.do2DRotation(innerCube, 2, 5)
+            self.flag = False
 
     def backRotate(self, counterClockwise):
         for cornerCube in self.cornerCubes:
@@ -256,6 +300,7 @@ class RubixCube():
                     self.do3DRotation(cornerCube, 2, 5, 0, 2)
                     self.do3DRotation(cornerCube, 5, 4, 2, 5)
                     self.do3DRotation(cornerCube, 4, 0, 5, 4)
+            self.flag = False
 
         for innerCube in self.innerCubes:
             if innerCube.face1 == 3 or innerCube.face2 == 3:
@@ -269,3 +314,14 @@ class RubixCube():
                     self.do2DRotation(innerCube, 2, 0)
                     self.do2DRotation(innerCube, 5, 2)
                     self.do2DRotation(innerCube, 4, 5)
+            self.flag = False
+
+if __name__ == "__main__":
+    rb = RubixCube()
+    rb.leftRotate(False)
+    rb.topRotate(False)
+    rb.rightRotate(True)
+    rb.bottomRotate(True)
+    rb.backRotate(True)
+    rb.frontRotate(False)
+    print(rb.getScore(5))
