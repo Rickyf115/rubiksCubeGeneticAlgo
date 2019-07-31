@@ -315,13 +315,3 @@ class RubixCube():
                     self.do2DRotation(innerCube, 5, 2)
                     self.do2DRotation(innerCube, 4, 5)
             self.flag = False
-
-if __name__ == "__main__":
-    rb = RubixCube()
-    rb.leftRotate(False)
-    rb.topRotate(False)
-    rb.rightRotate(True)
-    rb.bottomRotate(True)
-    rb.backRotate(True)
-    rb.frontRotate(False)
-    print(rb.getScore(5))
