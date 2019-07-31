@@ -24,7 +24,7 @@ def create_chromosome(size):
     possible_moves = ['backco','back', 'forwardco','forward', 'topco','top', 'bottomco','bottom', 'leftco','left', 'rightco','right', 'noMove']
     chromosome = []
     for _ in range(size):
-        index = random.randint(0, 11)
+        index = random.randint(0, 12)
         chromosome.append(possible_moves[index])
     return chromosome
 
@@ -86,7 +86,7 @@ def crossover(chrom1, chrom2):
 
 def mutation(chrom):
     possible_moves = ['backco','back', 'forwardco','forward', 'topco','top', 'bottomco','bottom', 'leftco','left', 'rightco','right', 'nomove']
-    move_index = random.randint(0, 11)
+    move_index = random.randint(0, 12)
     index = random.randint(0,len(chrom)-1)
     chrom[index] = possible_moves[move_index]
     print('Mutation occured!')
@@ -139,7 +139,7 @@ def simulation(generation_size, pop_size, chrom_size, mutation_rate, max_pop):
 
 
 if __name__ == '__main__':
-    simulation(50, 10, 6, 0.5, 50)
+    simulation(500, 10, 6, 0.5, 50)
 
 
 

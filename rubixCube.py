@@ -50,8 +50,10 @@ class RubixCube():
             Cube_2(5, 3, 5, 3),
             Cube_2(5, 4, 5, 4)
         ]
-
         self.flag = False
+        self.rightRotate(True)
+        self.leftRotate(False)
+
     
     def getScore(self, color):
         totalScore = 1
